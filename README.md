@@ -1,3 +1,3 @@
 # Envision-Bot
 
-This is a ptototype-module for our envision chatbot
+This is a prototype-module for our envision chatbot
