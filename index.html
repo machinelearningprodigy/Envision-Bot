@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftCare Chatbot</title>
+    <style>
+        /* Center the chatbot on the page */
+        body {
+            background-image: url('back.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #e0dddd;
+            /* Background color */
+        }
+
+        /* Chatbot container */
+        .chatbot-container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 60px;
+            background-color: #f0f0f0;
+            /* Container background color */
+            box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+            /* Box shadow for container */
+            animation: fadeIn 0.5s ease;
+            /* Fade in animation */
+        }
+
+        /* Button style */
+        /* Button style */
+        .button {
+            background-color: transparent;
+            border: 2px solid #3498db;
+            /* Blue border */
+            color: #3498db;
+            /* Blue text color */
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            /* Smooth transition */
+        }
+
+        /* Button style */
+        #find-hospital-button {
+            background-color: #43f18c;
+            /* Green */
+            border: 2px solid #27ae60;
+            /* Green border */
+            color: #0f0f0f;
+            /* White text color */
+        }
+
+        #appointment-button {
+            background-color: #c689e9;
+            /* Red */
+            border: 2px solid #e74c3c;
+            /* Red border */
+            color: #0f0f0f;
+            /* White text color */
+        }
+
+        #about-disease-button {
+            background-color: #8ce9f0;
+            /* Blue */
+            border: 2px solid #3498db;
+            /* Blue border */
+            color: #0f0f0f;
+            /* White text color */
+        }
+
+        .button:hover {
+            background-color: #3498db;
+            /* Blue background on hover */
+            color: #ffffff;
+            /* White text color on hover */
+            border-color: #ffffff;
+            /* White border color on hover */
+        }
+
+        /* Logo */
+        .logo {
+            width: 38px;
+            height: 34px;
+            /* Adjust the width of the logo */
+            margin-bottom: -20px;
+            /* Add space below the logo */
+        }
+
+        .transparent {
+            display: none;
+        }
+
+
+        /* Heading animation */
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        h1 {
+            color: #3498db !important;
+            /* Professional blue color */
+            animation: fadeInOut 5s ease infinite;
+            /* Adjust animation duration as needed */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chatbot-container">
+        <img src="icons8-chatbot-32.png" alt="Logo" class="logo"> <!-- Add your logo image -->
+        <h1 style="color: #333333;">Welcome to SwiftCare Chatbot!</h1>
+        <p style="color: #666666;">The Services To Serve All</p>
+
+        <button class="button" id="find-hospital-button" onclick="confirmAction('Find Nearest Hospital')">Find Nearest
+            Hospital</button>
+        <button class="button" id="appointment-button" onclick="confirmAction('Make an Appointment')">Make an
+            Appointment</button>
+        <button class="button" id="about-disease-button"
+            onclick="confirmAction('Information About Disease')">Information About Disease</button>
+
+        <div id="output"></div>
+    </div>
+
+    <script>
+        function confirmAction(action) {
+            if (confirm("Are you sure you want to " + action + "?")) {
+                document.getElementById("output").innerHTML = "Processing...";
+                if (action === "Make an Appointment") {
+                    document.getElementById("output").innerHTML = ""; // Clear previous output
+                    showAppointmentOptions();
+                    document.getElementById("find-hospital-button").classList.add("transparent");
+                    document.getElementById("about-disease-button").classList.add("transparent");
+                }
+            }
+        }
+
+        function showAppointmentOptions() {
+            var appointmentOptions = document.createElement("div");
+            appointmentOptions.innerHTML = `
+        <button class="button" onclick="showDialPad()">Make a Call</button>
+        <button class="button" onclick="showTimeSlots()">Schedule</button>
+        <button class="button" onclick="showMessageField()">Leave a Message</button>
+      `;
+            document.getElementById("output").appendChild(appointmentOptions);
+        }
+
+        function showDialPad() {
+            // Hide other appointment options
+            document.getElementById("output").innerHTML = `
+        <input type="text" id="phoneNumber" placeholder="Enter phone number" style="margin-bottom: 10px;">
+        <br>
+        <button class="button" onclick="makeACall()">Call</button>
+      `;
+            document.getElementById("appointment-button").classList.add("transparent");
+            document.getElementById("find-hospital-button").classList.add("transparent");
+            document.getElementById("about-disease-button").classList.add("transparent");
+        }
+
+        function showTimeSlots() {
+            // Hide other appointment options
+            document.getElementById("output").innerHTML = `
+        <select id="timeSlots" style="margin-bottom: 10px;">
+          <option value="9:00 AM">9:00 AM</option>
+          <option value="10:00 AM">10:00 AM</option>
+          <option value="11:00 AM">11:00 AM</option>
+          <!-- Add more time slots as needed -->
+        </select>
+        <br>
+        <button class="button" onclick="scheduleAppointment()">Schedule</button>
+      `;
+            document.getElementById("appointment-button").classList.add("transparent");
+            document.getElementById("find-hospital-button").classList.add("transparent");
+            document.getElementById("about-disease-button").classList.add("transparent");
+        }
+
+        function showMessageField() {
+            // Hide other appointment options
+            document.getElementById("output").innerHTML = `
+        <textarea id="message" rows="4" cols="50" placeholder="Enter your message" style="margin-bottom: 10px;"></textarea>
+        <br>
+        <button class="button" onclick="leaveMessage()">Send Message</button>
+      `;
+            document.getElementById("appointment-button").classList.add("transparent");
+            document.getElementById("find-hospital-button").classList.add("transparent");
+            document.getElementById("about-disease-button").classList.add("transparent");
+        }
+
+        function makeACall() {
+            var phoneNumber = document.getElementById("phoneNumber").value;
+            if (phoneNumber.trim() === "") {
+                alert("Please enter a phone number.");
+            } else {
+                document.getElementById("output").innerHTML = "Making a call to " + phoneNumber + "...";
+                // Code to make a call
+            }
+        }
+
+        function scheduleAppointment() {
+            var selectedTime = document.getElementById("timeSlots").value;
+            document.getElementById("output").innerHTML = "Scheduling appointment for " + selectedTime + "...";
+            // Code to schedule an appointment
+        }
+
+        function leaveMessage() {
+            var message = document.getElementById("message").value;
+            if (message.trim() === "") {
+                alert("Please enter a message.");
+            } else {
+                document.getElementById("output").innerHTML = "Sending message: " + message + "...";
+                // Code to send a message
+            }
+        }
+    </script>
+</body>
+
+</html>
